@@ -13,6 +13,9 @@ uv run --group unit-tests -m coverage xml
 uv run --group unit-tests -m coverage html
 $coverageTotal = uv run --group unit-tests -m coverage report --format=total
 if ($LastExitCode -eq 0) {
+	# Also print to the job log, which is easier to reach than the job summary.
+	uv run --group unit-tests -m coverage report
+	Write-Output "Unit test coverage: $coverageTotal%"
 	Write-Output "Unit test coverage: $coverageTotal%`n" >> $env:GITHUB_STEP_SUMMARY
 	Write-Output "<details>`n<summary>Unit test coverage per file</summary>`n" >> $env:GITHUB_STEP_SUMMARY
 	uv run --group unit-tests -m coverage report --format=markdown >> $env:GITHUB_STEP_SUMMARY
