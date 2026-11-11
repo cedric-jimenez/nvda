@@ -80,6 +80,24 @@ rununittests -k test_cursorManager.TestMove -k test_cursorManager.TestSelection
 
 Please refer to [unittest's documentation](https://docs.python.org/3/library/unittest.html#command-line-interface) for further information on how to filter tests.
 
+### Code coverage
+
+Code coverage of the unit tests is measured with [coverage.py](https://coverage.readthedocs.io/).
+It is configured in the `[tool.coverage.*]` sections of `pyproject.toml`.
+On GitHub Actions, the total coverage is shown in the summary of each unit test job, and the XML and HTML reports are uploaded as artifacts.
+
+To measure coverage locally, set the `NVDA_UNIT_TESTS_COVERAGE` environment variable to `1` before running the unit tests, then generate a report:
+
+```cmd
+set NVDA_UNIT_TESTS_COVERAGE=1
+rununittests
+uv run --group unit-tests -m coverage report
+uv run --group unit-tests -m coverage html
+```
+
+The HTML report is written to `testOutput\unit\coverageHtml`.
+Coverage is only measured for code under `source`, and only for code exercised by unit tests: system tests are not included.
+
 ## System Tests
 
 System tests can be run with the `runsystemtests.bat --include <TAG>` script.

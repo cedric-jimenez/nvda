@@ -386,6 +386,29 @@ unsupported-base = "ignore"  # 1 warning
 redundant-cast = "ignore"  # 1 warning
 mismatched-type-name = "ignore"  # 1 warning
 
+[tool.coverage.run]
+# Only measure NVDA's own code, not the tests or third party dependencies.
+source = ["source"]
+omit = [
+	# Generated COM interfaces
+	"source/comInterfaces/*",
+]
+branch = true
+# Kept with the other unit test outputs.
+# Resolved to an absolute path before the unit tests change the working directory.
+data_file = "testOutput/unit/.coverage"
+
+[tool.coverage.report]
+show_missing = false
+skip_empty = true
+precision = 1
+
+[tool.coverage.xml]
+output = "testOutput/unit/coverage.xml"
+
+[tool.coverage.html]
+directory = "testOutput/unit/coverageHtml"
+
 [tool.uv]
 default-groups = "all"
 python-preference = "only-system"
@@ -441,6 +464,8 @@ unit-tests = [
 	"unittest-xml-reporting==4.0.0",
 	# Feed parameters to tests neatly
 	"parameterized==0.9.0",
+	# Measuring unit test code coverage
+	"coverage==7.17.2",
 ]
 
 [tool.setuptools.dynamic]

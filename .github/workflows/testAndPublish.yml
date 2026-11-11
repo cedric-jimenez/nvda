@@ -352,6 +352,15 @@ jobs:
         detailed_summary: true
         annotate_only: true
         report_paths: testOutput/unit/unitTests.xml
+    - name: Upload unit test coverage
+      if: ${{ !cancelled() }}
+      uses: actions/upload-artifact@v7
+      with:
+        name: Unit tests coverage (${{ matrix.pythonVersion }}, ${{ matrix.arch }})
+        path: |
+          testOutput/unit/coverage.xml
+          testOutput/unit/coverageHtml
+        if-no-files-found: warn
 
   crowdinUpload:
     name: Upload translations to Crowdin
